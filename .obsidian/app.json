@@ -1,8 +1,7 @@
 {
   "vimMode": true,
-  "newFileLocation": "current",
   "attachmentFolderPath": "./doc-assets",
   "userIgnoreFilters": [
-    "go-efficient-concurrency/code/"
+    "/.*\\/code\\/.*/"
   ]
 }

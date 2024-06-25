@@ -16,10 +16,10 @@ concurrency model effectively.
 
 ## Concurrency
 If you have read this far, I think you already have some idea about concurrency.
-It simply translates to running some tasks simultaneously. There's another similar concept
-named parallelism. But that's another topic, if you wanna learn more keep your eye on
-Vivasoft blog. Too keen to wait? It's just a Google search or ChatGPT prompt away. Come
-back here after you do that.
+It simply translates to running some tasks simultaneously. There's another
+similar concept named parallelism. But that's another topic, if you wanna learn
+more keep your eye on Vivasoft blog. Too keen to wait? It's just a Google search
+or ChatGPT prompt away. Come back here after you do that.
 
 ## Waitgroup
 Let's see some shiny code.
@@ -41,4 +41,10 @@ Output:
 Hello
 ```
 
+What just happened? Even though `greet()` was called, we didn't see any
+reflection. There are numerous explanations why this happened on the internet
+filled with technical jargons. Since it's redundant to say those words again,
+let's understand the scenario with an analogy.
+
+Assume that 
 ## Channel

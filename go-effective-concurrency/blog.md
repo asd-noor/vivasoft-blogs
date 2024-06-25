@@ -15,11 +15,12 @@ optimise your existing code, you'll find practical tips for leveraging Go's
 concurrency model effectively.
 
 ## Concurrency
+
 If you have read this far, I think you already have some idea about concurrency.
-It simply translates to running some tasks simultaneously. There's another
-similar concept named parallelism. But that's another topic, if you wanna learn
-more keep your eye on Vivasoft blog. Too keen to wait? It's just a Google search
-or ChatGPT prompt away. Come back here after you do that.
+If not, it simply translates to running multiple tasks simultaneously. There's
+another similar concept named parallelism. But that's another topic, if you
+wanna learn more keep your eye on Vivasoft blog. Too keen to wait? It's just a
+Google search or ChatGPT prompt away. Come back here after you do that.
 
 ## Goroutines
 
@@ -33,7 +34,8 @@ Go. All you need to remember is the keyword `go` and call a function. It
 magically spawns the goroutines as needed and do the work, no need to
 create and manage the threads manually.
 
-Let's see some shiny code.
+Let's see it in action.
+
 ```go
 func greet() {
 	fmt.Println("Hello from the other side")
@@ -51,7 +53,7 @@ Output:
 Hello
 ```
 
-What just happened? Even though `greet()` was called, we didn't see any
+What just happened? Even though `greet()` was called, we didn't see its
 reflection. There are numerous explanations why this happened on the internet
 filled with technical jargon. Since it's redundant to say those words again,
 let's understand the scenario with an analogy.
@@ -63,9 +65,9 @@ the store. In the meantime the person hired you fled the country or whatever,
 just became unavailable. You, on the other hand, who doesn't have any contract
 to prove that you're doing your job nor someone is waiting to pay you, holding a
 package of meat (probably rotten), inside a meat store where your delivery
-package may not be accepted or thrown away.
+package may not be taken back or thrown away.
 
-Whatever happened to you, that's what has happened with that `greet()` function
+Whatever happened to you, that's what has happened with the `greet()` function
 and the meat package is the garbage value or memory leak in technical terms.
 
 ## Waitgroup

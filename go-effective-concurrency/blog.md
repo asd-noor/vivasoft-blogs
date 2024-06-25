@@ -30,7 +30,7 @@ or ChatGPT prompt away. Come back here after you do that.
 
 As previously mentioned, it's extremely easy to write concurrent programmes in
 Go. All you need to remember is the keyword `go` and call a function. It
-magically spawns the threads (goroutines) as needed and do the work, no need to
+magically spawns the goroutines as needed and do the work, no need to
 create and manage the threads manually.
 
 Let's see some shiny code.

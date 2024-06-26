@@ -37,23 +37,29 @@ create and manage the threads manually.
 Let's see it in action.
 
 ```go
-func greet() {
-	fmt.Println("Hello from the other side")
+package main
+
+import "fmt"
+
+func inform() {
+	fmt.Println("Hello from the meat store!")
 }
 
 func main() {
-	go greet()
-	fmt.Println("Hello")
+	fmt.Println("Hi!")
+	go inform()
+	fmt.Println("Bye!")
 }
 ```
 
 Output:
 ```shell
 ⯈ go run .
-Hello
+Hi!
+Bye!
 ```
 
-What just happened? Even though `greet()` was called, we didn't see its
+What just happened? Even though `inform()` was called, we didn't see its
 reflection. There are numerous explanations why this happened on the internet
 filled with technical jargon. Since it's redundant to say those words again,
 let's understand the scenario with an analogy.
@@ -71,5 +77,53 @@ Whatever happened to you, that's what has happened with the `greet()` function
 and the meat package is the garbage value or memory leak in technical terms.
 
 ## Waitgroup
+
+To prevent the depicted scenario, `WaitGroup` can be used which is a
+synchronisation primitive provided by the `sync` package available in Go
+standard library. `WaitGroup` is particularly useful in scenarios where you need
+to perform multiple operations concurrently and wait for all of them to
+complete, such as parallel data processing or graceful server shutdown.
+
+Let's see it in action with the context of previous example:
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+func inform(w *sync.WaitGroup) {
+	defer w.Done()
+	fmt.Println("Hello from the meat store!")
+}
+
+func main() {
+	fmt.Println("Hi!")
+	wg := &sync.WaitGroup{}
+
+	wg.Add(1)
+	go inform(wg)
+
+	wg.Wait()
+	fmt.Println("Bye!")
+}
+```
+
+Output:
+```shell
+⯈ go run .
+Hi!
+Hello from the meat store!
+Bye!
+```
+
+Here, in the `main()` function, a WaitGroup (wg) is created to synchronise the main goroutine with the `inform` goroutine. Then, before spawing another goroutine for `inform` function, `wg.Add(1)` which increases the WaitGroup's counter by 1, indicating that we're waiting for one goroutine to complete. After launching a separate goroutine to execute `inform()`,  main goroutine waits (by invoking `wg.Wait()`) for the WaitGroup's counter to be zero, in other words, it awaits all goroutines for which the counter was incremented have been executed.
+
+In the `inform()` function, pointer to the WaitGroup was passed. `w.Done()` tells the WaitGroup to decrement its counter by one. `defer` was used to invoke `w.Done()` before exiting the function.
+
+### Communication between goroutines by using pointer
+
 
 ## Channel

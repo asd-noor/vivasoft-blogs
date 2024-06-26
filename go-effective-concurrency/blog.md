@@ -16,11 +16,12 @@ concurrency model effectively.
 
 ## Concurrency
 
-If you have read this far, I think you already have some idea about concurrency.
-If not, it simply translates to running multiple tasks simultaneously. There's
-another similar concept named parallelism. But that's another topic, if you
-wanna learn more keep your eye on Vivasoft blog. Too keen to wait? It's just a
-Google search or ChatGPT prompt away. Come back here after you do that.
+Since you're reading this blog, I think, you already have some idea about
+concurrency. If not, it simply translates to running multiple tasks or processes
+simultaneously. There's another similar concept named parallelism. But that's
+another topic, if you wanna learn more in detail with technical jargon, keep
+your eye on Vivasoft blog or subscribe to our newsletter. Too keen to wait? It's
+just a Google search or ChatGPT prompt away. Come back here after you do that.
 
 ## Goroutines
 
@@ -30,7 +31,7 @@ Google search or ChatGPT prompt away. Come back here after you do that.
  can significantly improve programme performance.
 
 As previously mentioned, it's extremely easy to write concurrent programmes in
-Go. All you need to remember is the keyword `go` and call a function. It
+Go. All you need to remember is the `go` keyword and call a function. It
 magically spawns the goroutines as needed and do the work, no need to
 create and manage the threads manually.
 
@@ -53,7 +54,7 @@ func main() {
 ```
 
 Output:
-```shell
+```
 ⯈ go run .
 Hi!
 Bye!
@@ -61,7 +62,7 @@ Bye!
 
 What just happened? Even though `inform()` was called, we didn't see its
 reflection. There are numerous explanations why this happened on the internet
-filled with technical jargon. Since it's redundant to say those words again,
+filled with geekspeak. Since it's redundant to say those words again,
 let's understand the scenario with an analogy.
 
 Assume that you are a freelance delivery person (like Jason Statham in
@@ -73,7 +74,7 @@ to prove that you're doing your job nor someone is waiting to pay you, holding a
 package of meat (probably rotten), inside a meat store where your delivery
 package may not be taken back or thrown away.
 
-Whatever happened to you, that's what has happened with the `greet()` function
+Whatever happened to you, that's what has happened with the `inform()` function
 and the meat package is the garbage value or memory leak in technical terms.
 
 ## Waitgroup
@@ -112,7 +113,7 @@ func main() {
 ```
 
 Output:
-```shell
+```
 ⯈ go run .
 Hi!
 Hello from the meat store!
@@ -125,5 +126,8 @@ In the `inform()` function, pointer to the WaitGroup was passed. `w.Done()` tell
 
 ### Communication between goroutines by using pointer
 
+> also introduce Mutex
+
+## Mutex
 
 ## Channel

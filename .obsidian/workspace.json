@@ -4,15 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "ca18842b96dc5f6f",
+        "id": "e9ca06a7113feb9b",
         "type": "tabs",
         "children": [
           {
-            "id": "2c1c56d8c974734f",
+            "id": "c466fd522dafab5e",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "go-effective-concurrency/blog.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -65,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "1b850435b8198250",
@@ -82,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "go-effective-concurrency/blog.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -98,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "go-effective-concurrency/blog.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -119,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "go-effective-concurrency/blog.md"
+              }
             }
           }
         ]
@@ -139,8 +146,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "2c1c56d8c974734f",
+  "active": "c466fd522dafab5e",
   "lastOpenFiles": [
+    "2024-06-29.md",
     "go-effective-concurrency/blog.md",
     "go-effective-concurrency/code/gocache/f1/f1aa1066967982acc3b388962c14aedd31787560af3537a78d15dc9b7fc1040a-a",
     "go-effective-concurrency/code/gocache/35/35cdadb9de830e124b98c09d333ebbd8a5dfa6f7791a2c16af7b8c6c0bc2e61e-d",
@@ -176,7 +184,6 @@
     "go-effective-concurrency/code/gopath/pkg/mod/go.starlark.net@v0.0.0-20231101134539-556fd59b42f6/doc/spec.md",
     "go-effective-concurrency/code/gopath/pkg/mod/go.starlark.net@v0.0.0-20231101134539-556fd59b42f6/doc/impl.md",
     "go-effective-concurrency/code/gopath/pkg/mod/go.starlark.net@v0.0.0-20231101134539-556fd59b42f6/README.md",
-    "go-effective-concurrency/code/gopath/pkg/mod/golang.org/x/arch@v0.6.0/README.md",
     "go-effective-concurrency/code/gopath/pkg/mod/github.com/spf13/cobra@v1.7.0/assets/CobraMain.png",
     "go-effective-concurrency/code/gopath/pkg/mod/github.com/go-delve/delve@v1.22.1/assets/delve_icon_2x.png",
     "go-effective-concurrency/code/gopath/pkg/mod/github.com/go-delve/delve@v1.22.1/assets/delve_icon.png",

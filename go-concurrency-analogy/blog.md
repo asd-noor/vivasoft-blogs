@@ -209,7 +209,30 @@ Collecting the products...
 There are 980 products in inventory
 ```
 
-Wait a minute?!! The results aren't consistent. Let's run this with `-race` and see what we get as output.
+Wait a minute?!! The results aren't consistent. Let's break it down why did that happen:
+
+1. Concurrent access: Multiple goroutines are trying to access and modify the
+counter variable simultaneously.
+2. Non-atomic operation: The increment operation (counter++) is not atomic. It actually consists of three steps:
+	1. Read the current value of counter
+	2. Add 1 to this value
+	3. Write the new value back to counter
+3. Interleaving of operations: Due to the concurrent nature of goroutines, these steps can interleave in unpredictable ways. For example:
+	- Goroutine A reads counter (value 5)
+	- Goroutine B reads counter (also value 5)
+	- Goroutine A increments to 6 and writes back
+	- Goroutine B increments to 6 (not 7!) and writes back
+4. Lost updates: In the scenario above, what should have been two increments resulting in 7, only resulted in 6. This is a "lost update".
+5. Scheduling unpredictability: The exact ordering of goroutine execution is not guaranteed and can vary between runs.
+6. Hardware and OS factors: Different results might also occur due to factors like CPU core count, system load, and OS scheduling decisions.
+
+As a result, you might see final values that are less than 1000, and these
+values can be different each time you run the program. You might occasionally
+see 1000, but this would be by chance rather than by design. This
+unpredictability is why race conditions are particularly insidious bugs - they
+can lead to sporadic, hard-to-reproduce issues in production environments.
+
+Let's run this with `-race` and see what we get as output.
 
 ```
 ➜ go run -race .

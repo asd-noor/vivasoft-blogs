@@ -6,12 +6,16 @@ import (
 )
 
 type Inventory struct {
+	mu           sync.Mutex
 	ProductCount int
 }
 
 func addToInventory(w *sync.WaitGroup, inventory *Inventory) {
 	defer w.Done()
+
+	inventory.mu.Lock()
 	inventory.ProductCount++
+	inventory.mu.Unlock()
 }
 
 func main() {

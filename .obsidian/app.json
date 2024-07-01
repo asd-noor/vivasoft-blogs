@@ -3,5 +3,6 @@
   "attachmentFolderPath": "./doc-assets",
   "userIgnoreFilters": [
     "/.*\\/code\\/.*/"
-  ]
+  ],
+  "useMarkdownLinks": true
 }

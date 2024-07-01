@@ -43,17 +43,18 @@ package main
 import "fmt"
 
 func inform() {
-	fmt.Println("Hello from the meat store!")
+    fmt.Println("Hello from the meat store!")
 }
 
 func main() {
-	fmt.Println("Hi!")
-	go inform()
-	fmt.Println("Bye!")
+    fmt.Println("Hi!")
+    go inform()
+    fmt.Println("Bye!")
 }
 ```
 
 Output:
+
 ```
 ➜ go run .
 Hi!
@@ -62,17 +63,16 @@ Bye!
 
 What just happened? Even though `inform()` was called, we didn't see its
 reflection. There are numerous explanations why this happened on the internet
-filled with geekspeak. Since it's redundant to say those words again,
-let's understand the scenario with an analogy.
-
-Assume that you are a freelance delivery person (like Jason Statham in
-Transporter movie). Now, you're hired by someone to deliver a package of meat to
-a meat to a meat store, probably for a refund. You took the package and went to
-the store. In the meantime the person hired you fled the country or whatever,
-just became unavailable. You, on the other hand, who doesn't have any contract
-to prove that you're doing your job nor someone is waiting to pay you, holding a
-package of meat (probably rotten), inside a meat store where your delivery
-package may not be taken back or thrown away.
+filled with geekspeak. Since it's redundant to say those words again, let's
+understand the scenario with an analogy. Assume that you are a freelance
+delivery person (like Jason Statham in Transporter movie). Now, you're hired by
+someone to deliver a package of meat to a meat to a meat store, probably for a
+refund. You took the package and went to the store. In the meantime the person
+hired you fled the country or whatever, just became unavailable. You, on the
+other hand, who doesn't have any contract to prove that you're doing your job
+nor someone is waiting to pay you, holding a package of meat (probably rotten),
+inside a meat store where your delivery package may not be taken back or thrown
+away.
 
 Whatever happened to you, that's what has happened with the `inform()` function
 and the meat package is the garbage value or memory leak in technical terms.
@@ -91,31 +91,32 @@ Let's see it in action:
 package main
 
 import (
-	"fmt"
-	"sync"
-	"time"
+    "fmt"
+    "sync"
+    "time"
 )
 
 func fetchTickets(w *sync.WaitGroup) {
-	defer w.Done()
-	fmt.Println("Got your tickets. Coming...")
-	time.Sleep(3 * time.Second)
-	fmt.Println("Reached airport")
+    defer w.Done()
+    fmt.Println("Got your tickets. Coming...")
+    time.Sleep(3 * time.Second)
+    fmt.Println("Reached airport")
 }
 
 func main() {
-	fmt.Println("I left my tickets at home, bring them to me!")
-	wg := &sync.WaitGroup{}
+    fmt.Println("I left my tickets at home, bring them to me!")
+    wg := &sync.WaitGroup{}
 
-	wg.Add(1)
-	go fetchTickets(wg)
+    wg.Add(1)
+    go fetchTickets(wg)
 
-	wg.Wait()
-	fmt.Println("Thanks! Adios, amigo.")
+    wg.Wait()
+    fmt.Println("Thanks! Adios, amigo.")
 }
 ```
 
 Output:
+
 ```
 ➜ go run .
 Hi!
@@ -151,38 +152,38 @@ Let's translate this scenario into a very simple programme:
 package main
 
 import (
-	"fmt"
-	"sync"
+    "fmt"
+    "sync"
 )
 
 type Inventory struct {
-	mu           sync.Mutex
-	ProductCount int
+    ProductCount int
 }
 
-func addToInventoryUnsafe(w *sync.WaitGroup, inventory *Inventory) {
-	defer w.Done()
-	inventory.ProductCount++
+func addToInventory(w *sync.WaitGroup, inventory *Inventory) {
+    defer w.Done()
+    inventory.ProductCount++
 }
 
 func main() {
-	fmt.Println("Collecting the products...")
-	wg := &sync.WaitGroup{}
-	inventory := Inventory{
-		ProductCount: 0,
-	}
+    fmt.Println("Collecting the products...")
+    wg := &sync.WaitGroup{}
+    inventory := Inventory{
+        ProductCount: 0,
+    }
 
-	for i := 0; i < 1000; i++ {
-		wg.Add(1)
-		go addToInventoryUnsafe(wg, &inventory)
-	}
+    for i := 0; i < 1000; i++ {
+        wg.Add(1)
+        go addToInventory(wg, &inventory)
+    }
 
-	wg.Wait()
-	fmt.Printf("There are %d products in inventory\n\n", inventory.ProductCount)
+    wg.Wait()
+    fmt.Printf("There are %d products in inventory\n\n", inventory.ProductCount)
 }
 ```
 
 The output:
+
 ```
 ➜ go run .
 Collecting the products...
@@ -212,16 +213,16 @@ There are 980 products in inventory
 Wait a minute?!! The results aren't consistent. Let's break it down why did that happen:
 
 1. Concurrent access: Multiple goroutines are trying to access and modify the
-counter variable simultaneously.
-2. Non-atomic operation: The increment operation (counter++) is not atomic. It actually consists of three steps:
-	1. Read the current value of counter
-	2. Add 1 to this value
-	3. Write the new value back to counter
+   ProductCount variable simultaneously.
+2. Non-atomic operation: The increment operation (inventory.ProductCount++) is not atomic. It actually consists of three steps:
+   1. Read the current value of ProductCount
+   2. Add 1 to this value
+   3. Write the new value back to ProductCount
 3. Interleaving of operations: Due to the concurrent nature of goroutines, these steps can interleave in unpredictable ways. For example:
-	- Goroutine A reads counter (value 5)
-	- Goroutine B reads counter (also value 5)
-	- Goroutine A increments to 6 and writes back
-	- Goroutine B increments to 6 (not 7!) and writes back
+   - Goroutine A reads ProductCount (value 5)
+   - Goroutine B reads ProductCount (also value 5)
+   - Goroutine A increments to 6 and writes back
+   - Goroutine B increments to 6 (not 7!) and writes back
 4. Lost updates: In the scenario above, what should have been two increments resulting in 7, only resulted in 6. This is a "lost update".
 5. Scheduling unpredictability: The exact ordering of goroutine execution is not guaranteed and can vary between runs.
 6. Hardware and OS factors: Different results might also occur due to factors like CPU core count, system load, and OS scheduling decisions.
@@ -287,9 +288,64 @@ Found 2 data race(s)
 exit status 66
 ```
 
-
 ## Mutex
 
+In order to fix this, we can use __Mutex__, another synchronisation primitive, provided by the Go standard library.
 
+```go
+package main
 
+import (
+	"fmt"
+	"sync"
+)
+
+type Inventory struct {
+	mu           sync.Mutex
+	ProductCount int
+}
+
+func addToInventory(w *sync.WaitGroup, inventory *Inventory) {
+	defer w.Done()
+
+	inventory.mu.Lock()
+	inventory.ProductCount++
+	inventory.mu.Unlock()
+}
+
+func main() {
+	fmt.Println("Collecting the products...")
+	wg := &sync.WaitGroup{}
+	inventory := Inventory{
+		ProductCount: 0,
+	}
+
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go addToInventoryUnsafe(wg, &inventory)
+	}
+
+	wg.Wait()
+	fmt.Printf("There are %d products in inventory\n\n", inventory.ProductCount)
+}
+```
+
+Output:
+```
+➜ for i in {1..5}; do go run . ; done
+Collecting the products...
+There are 1000 products in inventory
+
+Collecting the products...
+There are 1000 products in inventory
+
+Collecting the products...
+There are 1000 products in inventory
+
+Collecting the products...
+There are 1000 products in inventory
+
+Collecting the products...
+There are 1000 products in inventory
+```
 ## Channel

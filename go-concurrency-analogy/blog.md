@@ -348,4 +348,14 @@ There are 1000 products in inventory
 Collecting the products...
 There are 1000 products in inventory
 ```
+
+
 ## Channel
+
+Unfortunately, `Mutex` is not the ideal solution for concurrency. In fact,
+`Mutex` makes asynchronous calls to synchronous calls to some extent.
+Therefore, to make our programme truly asynchronous, we can use a fundamental
+concurrency primitive in Go that allow goroutines to communicate with each
+other and synchronize their execution.
+
+
